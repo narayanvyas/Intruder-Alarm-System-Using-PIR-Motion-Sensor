@@ -1,6 +1,6 @@
 /*  Intruder Alarm System Using PIR Motion Sensor
 
-    GitHub URL - https://github.com/narayanvyas/Arduino-PIR-Motion-Sensor-SC-SR501-With-Servo-Motor
+    GitHub URL - https://github.com/narayanvyas/Intruder-Alarm-System-Using-PIR-Motion-Sensor
 
    Components
    ----------
