@@ -1,94 +1,117 @@
-/*  PIR Motion Sensor With Servo Motor
- * 
- *  GitHub URL - https://github.com/narayanvyas/Arduino-PIR-Motion-Sensor-SC-SR501-With-Servo-Motor
- * 
- *  Developed By Web Dev Fusion
- *  URL - https://www.webdevfusion.com
- *  
- *  Designed By S-Kit
- *  
- * Components
- * ----------
- *  - Arduino Uno
- *  - Infrared Motion Sensor
- *  - Ultrasonic Distance Sensor
- *  - An LED
- *  - A 220 Ohm resistor for the LED
- *  - A Buzzer
- *  - A Servo Motor
- *  
- *  Libraries
- *  ---------
- *  - None
- *
- * Connections
- * -----------
- *  Break out    |    Arduino Uno
- *  --------------------------------------------
- *      PIR VCC            |        5V
- *      PIR GND            |        GND
- *      PIR OUT            |        3
- *      Servo VCC VCC      |        5V
- *      Servo GND          |        GND
- *      Servo Out          |        5
- *      Buzzer GND         |        GND
- *      Buzzer Out         |        8
- *      
- * Also connect an LED to simulate a controlled device. 
- *           220 Ohm
- *    3 ----/\/\/\/\----(LED |)----GND
- *  
- */
+/*  Intruder Alarm System Using PIR Motion Sensor
 
-#include <Servo.h>      // Loading Servo Motor Header Files
- 
-int ledPin   = 4;       // choose the pin for the LED
+    GitHub URL - https://github.com/narayanvyas/Arduino-PIR-Motion-Sensor-SC-SR501-With-Servo-Motor
+
+   Components
+   ----------
+    - Arduino Uno R3
+    - Infrared Motion Sensor
+    - Two LEDs
+    - Two 220 Ohm Resistors
+    - A Buzzer
+    - PCB
+    - Wires
+    - 9v Battery
+    - 9v Battery Connector
+    - On Off Switch
+
+   Libraries
+   ---------
+   - None
+
+   Connections
+   -----------
+        Break out          |     Arduino Uno
+   --------------------------------------------
+        PIR VCC            |        5V
+        PIR GND            |        GND
+        PIR OUT            |        3
+        LED 1 OUT          |        4
+        LED 2 OUT          |        5
+        Buzzer OUT         |        7
+        Buzzer GND         |        GND
+
+     Also connect LEDs two 220 Ohm Resistors.
+
+
+         ----/\/\/\/\----(LED |)----GND
+
+*/
+
 int inputPin = 3;       // choose the input pin (for PIR sensor)
+int ledRed   = 4;     // choose the pin for Green LED
+int ledGreen = 5;         // choose the pin for Red LED
+int buzzer = 7;         // choose pin for the buzzer
 int pirState = LOW;     // we start, assuming no motion detected
 int val      = 0;       // variable for reading the pin status
-int buzzer = 8;         // choose pin for the buzzer
-int servoPin = 5;       // Servo Pin
 
 //the time we give the sensor to calibrate (10-60 secs according to the datasheet)
 int calibrationTime = 30; //This time is in seconds
-Servo Servo1;             // creating servo object
- 
+
 void setup() {
-  pinMode(ledPin, OUTPUT);      // declare LED as output
+  pinMode(ledRed, OUTPUT);      // declare Red LED as output
+  pinMode(ledGreen, OUTPUT);      // declare Green LED as output
   pinMode(inputPin, INPUT);     // declare sensor as input
   pinMode(buzzer, OUTPUT);     // declare buzzer as output
-  Servo1.attach(servoPin);     // attaching servo pin
- 
+
   Serial.begin(9600);
   Serial.println("Waiting for the sensor to warm up.");
+  digitalWrite(ledRed, HIGH);
+  digitalWrite(ledGreen, HIGH);
+  delay(300);
+  digitalWrite(ledRed, LOW);
+  digitalWrite(ledGreen, LOW);
+  delay(300);
+  digitalWrite(ledRed, HIGH);
+  digitalWrite(ledGreen, HIGH);
+  delay(300);
+  digitalWrite(ledRed, LOW);
+  digitalWrite(ledGreen, LOW);
+  delay(300);
+  digitalWrite(ledRed, HIGH);
+  digitalWrite(ledGreen, HIGH);
+  delay(300);
+  digitalWrite(ledRed, LOW);
+  digitalWrite(ledGreen, LOW);
+  delay(300);
+  digitalWrite(ledRed, HIGH);
+  digitalWrite(ledGreen, HIGH);
+  delay(300);
+  digitalWrite(ledRed, LOW);
+  digitalWrite(ledGreen, LOW);
+  delay(300);
+  digitalWrite(ledRed, HIGH);
+  digitalWrite(ledGreen, HIGH);
+  delay(300);
+  digitalWrite(ledRed, LOW);
+  digitalWrite(ledGreen, LOW);
+  delay(300);
   Serial.println("SENSOR ACTIVE");
 }
- 
-void loop(){
+
+void loop() {
   val = digitalRead(inputPin);  // read input value
 
   if (val == HIGH) {            // check if the input is HIGH
-    digitalWrite(ledPin, HIGH);  // turn LED ON
+    digitalWrite(ledGreen, LOW);  // turn Green LED OFF
+    digitalWrite(ledRed, HIGH);  // turn Green LED ON
     tone(buzzer, 1000);
     if (pirState == LOW) {
       // we have just turned on
       Serial.println("Motion detected!");
       // We only want to print on the output change, not state
       pirState = HIGH;
-      Servo1.write(180);
-      Serial.println("Arm Moved");
       delay(5000);
     }
   } else {
-    digitalWrite(ledPin, LOW); // turn LED OFF
-    if (pirState == HIGH){
+    digitalWrite(ledRed, LOW); // turn Red LED OFF
+    digitalWrite(ledGreen, HIGH);  // turn Green LED ON
+    if (pirState == HIGH) {
       // we have just turned off
       Serial.println("Motion ended!");
       // We only want to print on the output change, not state
       pirState = LOW;
       noTone(buzzer);
-      Servo1.write(0);
-      Serial.println("Arm Moved Back To Original Stage");
     }
   }
 }
