@@ -1,6 +1,6 @@
-/*  Intruder Alarm System Using PIR Motion Sensor
+/* Intruder Alarm System Using PIR Motion Sensor
 
-    GitHub URL - https://github.com/narayanvyas/Intruder-Alarm-System-Using-PIR-Motion-Sensor
+   GitHub URL - https://github.com/narayanvyas/Intruder-Alarm-System-Using-PIR-Motion-Sensor
 
    Components
    ----------
@@ -26,22 +26,20 @@
         PIR VCC            |        5V
         PIR GND            |        GND
         PIR OUT            |        3
-        LED 1 OUT          |        4
-        LED 2 OUT          |        5
-        Buzzer OUT         |        7
+        LED 1 OUT          |        9
+        LED 2 OUT          |        11
+        Buzzer OUT         |        13
         Buzzer GND         |        GND
 
      Also connect LEDs two 220 Ohm Resistors.
 
-
          ----/\/\/\/\----(LED |)----GND
-
 */
 
 int inputPin = 3;       // choose the input pin (for PIR sensor)
-int ledRed   = 4;     // choose the pin for Green LED
-int ledGreen = 5;         // choose the pin for Red LED
-int buzzer = 7;         // choose pin for the buzzer
+int ledRed   = 9;     // choose the pin for Green LED
+int ledGreen = 11;         // choose the pin for Red LED
+int buzzer = 13;         // choose pin for the buzzer
 int pirState = LOW;     // we start, assuming no motion detected
 int val      = 0;       // variable for reading the pin status
 
